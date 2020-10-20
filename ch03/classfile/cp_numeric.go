@@ -26,10 +26,10 @@ func (self *ConstantLongInfo) readInfo(reader *ClassReader) {
 	self.val = int64(reader.readUint64())
 }
 
-type COnstantDoubleInfo struct {
+type ConstantDoubleInfo struct {
 	val float64
 }
 
-func (self *COnstantDoubleInfo) readInfo(reader *ClassReader) {
+func (self *ConstantDoubleInfo) readInfo(reader *ClassReader) {
 	self.val = math.Float64frombits(reader.readUint64())
 }

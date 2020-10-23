@@ -10,7 +10,7 @@ type ClassFile struct {
 	accessFlags  uint16
 	thisClass    uint16
 	superClass   uint16
-	interfaces   uint16
+	interfaces   []uint16
 	fields       []*MemberInfo
 	methods      []*MemberInfo
 	attributes   []AttributeInfo
@@ -23,19 +23,27 @@ func Parse(classData []byte) (cf *ClassFile, err error) {
 			err, ok = r.(error)
 
 			if !ok {
-				fmt.Errorf("%v", r)
+				err = fmt.Errorf("%v", r)
 			}
 		}
 	}()
 
-	cr := &ClassReader{}
+	cr := &ClassReader{classData}
 	cf = &ClassFile{}
 	cf.read(cr)
 	return
 }
 
 func (self *ClassFile) read(cr *ClassReader) {
-
+	self.readAndCheckMagic(cr)
+	self.readAndCheckVersion(cr)
+	self.constantPool = readConstantPool(cr)
+	self.accessFlags = cr.readUint16()
+	self.thisClass = cr.readUint16()
+	self.superClass = cr.readUint16()
+	self.interfaces = cr.readUint16s()
+	//self.fields = readMe
+	self.attributes = readAttributes(cr, self.constantPool)
 }
 
 func (self *ClassFile) readAndCheckMagic(cr *ClassReader) {
@@ -86,7 +94,7 @@ func (self *ClassFile) ConstantPool() ConstantPool {
 	return self.constantPool
 }
 
-func (self *ClassFile) Interfaces() uint16 {
+func (self *ClassFile) Interfaces() []uint16 {
 	return self.interfaces
 }
 

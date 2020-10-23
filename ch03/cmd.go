@@ -1,10 +1,10 @@
 package main
 
 import (
-	"ch03/classfile"
-	"ch03/classpath"
 	"flag"
 	"fmt"
+	"goJVM/ch03/classfile"
+	"goJVM/ch03/classpath"
 	"os"
 	"strings"
 )

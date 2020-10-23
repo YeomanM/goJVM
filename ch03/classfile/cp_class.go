@@ -10,5 +10,5 @@ func (self *ConstantClassInfo) readInfo(reader *ClassReader) {
 }
 
 func (self *ConstantClassInfo) Name() string {
-	return self.cp
+	return self.cp.getUtf8(self.nameIndex)
 }

@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+//ch03 -Xjre "F:\soft\java\jdk\jdk8" java.lang.String
 func main() {
 	cmd := parseCmd()
 	if cmd.versionFlag {
